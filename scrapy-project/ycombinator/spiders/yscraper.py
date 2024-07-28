@@ -13,31 +13,27 @@ class YCombinator(scrapy.Spider):
     name = 'YCombinatorScraper'
     start_urls = make_start_urls_list()
 
-    def parse(self, response):
-        rc = response.css
-        # get the JSON object inside the <script> tag
-        # cl = 'script.js-react-on-rails-component'
-        # st = rc(f'{cl}[data-component-name="CompaniesShowPage"]::text').get()
+    def parse(self, response: scrapy.http.Response) -> dict:
         st = response.css('[data-page]::attr(data-page)').get()
         if 1 is not None:
             # load the JSON object and set the variable for the 'Company' data
             jo = json.loads(st)['props']
-            jc = jo['company']
+            data = jo['company']
             yield {
-                'company_id': jc['id'],
-                'company_name': jc['name'],
-                'short_description': jc['one_liner'],
-                'long_description': jc['long_description'],
-                'batch': jc['batch_name'],
-                'status': jc['ycdc_status'],
-                'tags': jc['tags'],
-                'location': jc['location'],
-                'country': jc['country'],
-                'year_founded': jc['year_founded'],
-                'num_founders': len(jc['founders']),
-                'founders_names': [f['full_name'] for f in jc['founders']],
-                'team_size': jc['team_size'],
-                'website': jc['website'],
-                'cb_url': jc['cb_url'],
-                'linkedin_url': jc['linkedin_url'],
+                'company_id': data['id'],
+                'company_name': data['name'],
+                'short_description': data['one_liner'],
+                'long_description': data['long_description'],
+                'batch': data['batch_name'],
+                'status': data['ycdc_status'],
+                'tags': data['tags'],
+                'location': data['location'],
+                'country': data['country'],
+                'year_founded': data['year_founded'],
+                'num_founders': len(data['founders']),
+                'founders_names': [f['full_name'] for f in data['founders']],
+                'team_size': data['team_size'],
+                'website': data['website'],
+                'cb_url': data['cb_url'],
+                'linkedin_url': data['linkedin_url'],
             }

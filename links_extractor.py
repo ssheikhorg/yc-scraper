@@ -12,7 +12,8 @@ from tqdm import tqdm
 class YCLinksExtractor:
     def __init__(self) -> None:
         self.driver = self.make_driver()
-        self.page = "https://www.ycombinator.com/companies"
+        # self.page = "https://www.ycombinator.com/companies"
+        self.page = "https://www.ycombinator.com/companies?team_size=%5B%221%22%2C%2250%22%5D"
 
     def make_driver(self):
         service = Service(executable_path="D:\\webdrivers\\geckodriver.exe")
@@ -64,27 +65,21 @@ class YCLinksExtractor:
         for url in elements:
             yield url.get_attribute('href')
 
-    def write_urls_to_file(ul: list):
-        """Appends a list of company urls to a csv file."""
-        import csv
-        with open('./scrapy-project/ycombinator/start_urls.csv', 'w', newline='') as f:
-            writer = csv.writer(f)
-            writer.writerow(ul)
+    def write_urls_to_file(self, ul: list) -> None:
+        """Appends a list of company urls to a file."""
+        with open('./data/yc_links.txt', 'w') as f:
+            json.dump(ul, f)
 
     def yc_links_extractor(self):
         """Run the main script to write all start urls to a file."""
         print(f"Attempting to scrape links from {self.page}.")
         self.get_page_source()
         self.click_see_all_options()
-        # compile an array of batches (checkbox elements)
         batches = self.compile_batches()
-        # get only one batch
-        one_batch = next(batches)
-        count = len(list(one_batch))
+        batches = list(batches)
         ulist = []
 
-        # for b in tqdm(list(batches)):
-        for b in tqdm(list(batches)):
+        for b in tqdm(batches):
             # filter companies
             b.click()
 
