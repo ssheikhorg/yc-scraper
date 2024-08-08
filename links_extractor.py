@@ -67,7 +67,7 @@ class YCLinksExtractor:
 
     def write_urls_to_file(self, ul: list) -> None:
         """Appends a list of company urls to a file."""
-        with open('./data/yc_links.txt', 'w') as f:
+        with open('ycscrapy/data/yc_links.txt', 'w') as f:
             json.dump(ul, f)
 
     def yc_links_extractor(self):
