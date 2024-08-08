@@ -20,4 +20,8 @@ The following Python packages are required:
 ## Usage
 
 1. Clone this repository.
-2. Navigate to the `yc-scraper` directory.
+2. Navigate to the `ycscrapy` directory.
+
+```bash
+scrapy crawl ycspider -O output.csv
+```
