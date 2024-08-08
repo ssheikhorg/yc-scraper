@@ -8,6 +8,6 @@
 from itemadapter import ItemAdapter
 
 
-class CompaniesPipeline:
+class YcscrapyPipeline:
     def process_item(self, item, spider):
         return item

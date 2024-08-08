@@ -6,7 +6,7 @@
 import scrapy
 
 
-class CompaniesItem(scrapy.Item):
+class YcscrapyItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()
     pass
